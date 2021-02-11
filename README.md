@@ -22,11 +22,11 @@ docker-compose up
 
 ### Endpoints
 
-*http://localhost:3000/api/activities*
-*http://localhost:3000/api/activities/1*
-*http://localhost:3000/api/activities/questions*
-*http://localhost:3000/api/activities/questions/1*
-*http://localhost:3000/api/activities/questions/options*
-*http://localhost:3000/api/activities/questions/options/1*
-*http://localhost:3000/api/clients*
-*http://localhost:3000/api/clients/1*
+* *http://localhost:3000/api/activities*
+* *http://localhost:3000/api/activities/1*
+* *http://localhost:3000/api/activities/questions*
+* *http://localhost:3000/api/activities/questions/1*
+* *http://localhost:3000/api/activities/questions/options*
+* *http://localhost:3000/api/activities/questions/options/1*
+* *http://localhost:3000/api/clients*
+* *http://localhost:3000/api/clients/1*
