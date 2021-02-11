@@ -1,2 +1,2 @@
-# quizappts
-Quiz API for activities, quizes or surveys
+#Typescript App with Nestjs, Postgres and Docker
+Quiz API for activities, quizzes or surveys

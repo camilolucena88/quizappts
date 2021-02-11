@@ -1,0 +1,23 @@
+{
+  "type": "postgres",
+  "host": "0.0.0.0",
+  "port": 5432,
+  "username": "user",
+  "password": "1234",
+  "database": "escuelauno",
+  "entities": [
+    "Activity",
+    "Options",
+    "Answers",
+    "Client",
+    "Questions"
+  ],
+  "synchronize": false,
+  "migrationsTableName": "migrations",
+  "migrations": [
+    "src/database/migrations/*.ts"
+  ],
+  "cli": {
+    "migrationsDir": "src/database/migrations"
+  }
+}
