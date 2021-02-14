@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { OptionsService } from '../services/options.service';
+import { OptionsService } from './options.service';
 
 @Controller('options')
 export class OptionsController {

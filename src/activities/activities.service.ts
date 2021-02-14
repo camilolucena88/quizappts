@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Activity } from '../entity/Activity';
+import { Activity } from './entity/Activity';
+import { QuestionsService } from '../questions/questions.service';
+import { CreateActivityDto } from './dto/create-activity.dto';
 
 @Injectable()
 export class ActivitiesService {
   constructor(
     @InjectRepository(Activity)
     private activitiesRepo: Repository<Activity>,
+    private questionsService: QuestionsService,
   ) {}
 
   findAll(): Promise<Activity[]> {
@@ -18,9 +21,14 @@ export class ActivitiesService {
     return this.activitiesRepo.findOne(id);
   }
 
-  create(body: any) {
+  async create(activity: CreateActivityDto) {
+    const questions = [];
+    for (const question of activity.questions) {
+      questions.push(await this.questionsService.create(question));
+    }
     const newActivity = new Activity();
-    newActivity.name = body.name;
+    newActivity.name = activity.name;
+    newActivity.questions = questions;
     return this.activitiesRepo.save(newActivity);
   }
 

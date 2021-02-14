@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { AnswersService } from '../services/answers.service';
+import { AnswersService } from './answers.service';
 
 @Controller('api/answers')
 export class AnswersController {

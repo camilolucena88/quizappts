@@ -2,11 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Client } from '../../clients/entity/Client';
+import { Questions } from '../../questions/entity/Questions';
 
 @Entity()
 export class Activity {
@@ -18,6 +18,9 @@ export class Activity {
 
   // @ManyToOne(() => Client, (client) => client.activities)
   // client: Client;
+
+  @OneToMany(() => Questions, (questions) => questions.activity)
+  questions: Array<Questions>;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

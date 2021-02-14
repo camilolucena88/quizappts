@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ClientsService } from '../services/clients.service';
+import { ClientsService } from './clients.service';
 
 @Controller('api/clients')
 export class ClientsController {

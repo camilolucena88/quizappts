@@ -2,16 +2,18 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne, OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Options } from '../../options/entity/Options';
 
 @Entity()
 export class Answers {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('smallint')
+  @Column({ type: 'smallint', default: 0 })
   type: number;
 
   @Column('text')

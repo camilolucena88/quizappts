@@ -1,21 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AppService } from './app.service';
 import { ActivitiesModule } from './activities/activities.module';
-import { ActivitiesService } from './activities/services/activities.service';
-import { ActivitiesController } from './activities/controllers/activities.controller';
+import { ActivitiesService } from './activities/activities.service';
+import { ActivitiesController } from './activities/activities.controller';
 import { AnswersModule } from './answers/answers.module';
-import { AnswersController } from './answers/controllers/answers.controller';
-import { AnswersService } from './answers/services/answers.service';
+import { AnswersController } from './answers/answers.controller';
+import { AnswersService } from './answers/answers.service';
 import { ClientsModule } from './clients/clients.module';
-import { ClientsController } from './clients/controllers/clients.controller';
-import { ClientsService } from './clients/services/clients.service';
+import { ClientsService } from './clients/clients.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { QuestionsModule } from './questions/questions.module';
 import { OptionsModule } from './options/options.module';
-import { OptionsController } from './options/controllers/options.controller';
-import { QuestionsController } from './questions/controllers/questions.controller';
-import { QuestionsService } from './questions/services/questions.service';
-import { OptionsService } from './options/services/options.service';
+import { QuestionsService } from './questions/questions.service';
+import { OptionsService } from './options/options.service';
 import { Client } from './clients/entity/Client';
 import { Answers } from './answers/entity/Answers';
 import { Activity } from './activities/entity/Activity';
@@ -42,13 +38,7 @@ import { Options } from './options/entity/Options';
     QuestionsModule,
     OptionsModule,
   ],
-  controllers: [
-    ActivitiesController,
-    AnswersController,
-    ClientsController,
-    OptionsController,
-    QuestionsController,
-  ],
+  controllers: [ActivitiesController, AnswersController],
   providers: [
     ActivitiesService,
     AnswersService,
