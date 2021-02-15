@@ -14,6 +14,7 @@ import { Answers } from './answers/entity/Answers';
 import { Activity } from './activities/entity/Activity';
 import { Questions } from './questions/entity/Questions';
 import { Options } from './options/entity/Options';
+import {QuestionsController} from "./questions/questions.controller";
 
 @Module({
   imports: [
@@ -34,7 +35,7 @@ import { Options } from './options/entity/Options';
     QuestionsModule,
     OptionsModule,
   ],
-  controllers: [ActivitiesController, AnswersController],
+  controllers: [ActivitiesController, AnswersController, QuestionsController],
   providers: [
     ActivitiesService,
     AnswersService,

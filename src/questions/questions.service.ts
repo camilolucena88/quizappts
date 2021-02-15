@@ -6,6 +6,8 @@ import { OptionsService } from '../options/options.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { Activity } from '../activities/entity/Activity';
 import { STATUS_CODES } from 'http';
+import { UpdateQuestionDto } from './dto/update-question.dto';
+import { UpdateOneQuestionDto } from './dto/update-one-question.dto';
 
 @Injectable()
 export class QuestionsService {
@@ -66,5 +68,25 @@ export class QuestionsService {
   async remove(id: number) {
     await this.questionsRepo.delete(id);
     return true;
+  }
+
+  async updateOneQuestion(id: number, questionBody: UpdateOneQuestionDto) {
+    const question = await this.questionsRepo.findOne({ id });
+    if (question) {
+      question.question = questionBody.question;
+      question.type = questionBody.type;
+      question.max_duration = questionBody.max_duration;
+      return this.questionsRepo.save(question);
+    }
+    throw new HttpException('Wrong question id', HttpStatus.NOT_FOUND);
+  }
+
+  async findAllOptionsByQuestion(question: Questions) {
+    return question.options;
+  }
+
+  async addOneOption(question: Questions, body) {
+    question.options = body;
+    return this.questionsRepo.save(question);
   }
 }

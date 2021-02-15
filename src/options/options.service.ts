@@ -1,9 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Options } from './entity/Options';
 import { AnswersService } from '../answers/answers.service';
 import { CreateOptionDto } from './dto/create-option.dto';
+import { CreateOneOptionDto } from './dto/create-one-option.dto';
+import { Questions } from '../questions/entity/Questions';
+import { UpdateOneOptionDto } from './dto/update-one-option.dto';
 
 @Injectable()
 export class OptionsService {
@@ -38,6 +41,13 @@ export class OptionsService {
     return optionsArray;
   }
 
+  async createOne(body: CreateOneOptionDto) {
+    const newOption = new Options();
+    newOption.answer = body.answer;
+    newOption.type = body.type;
+    return await this.optionsRepo.save(newOption);
+  }
+
   async update(id: number, body: any) {
     const task = await this.optionsRepo.findOne(id);
     this.optionsRepo.merge(task, body);
@@ -47,5 +57,31 @@ export class OptionsService {
   async remove(id: number) {
     await this.optionsRepo.delete(id);
     return true;
+  }
+
+  async findOneOption(id: number, question: Questions) {
+    const option = await this.optionsRepo.findOne({
+      where: {
+        id: id,
+        question: question,
+      },
+    });
+    if (option) {
+      return option;
+    }
+
+    throw new HttpException(
+      'This option does not belong to question id: ' + question.id,
+      HttpStatus.NOT_FOUND,
+    );
+  }
+
+  async updateOneOption(id: number, updateOneOptionDto: UpdateOneOptionDto) {
+    const option = await this.optionsRepo.findOne(id);
+    option.answer = updateOneOptionDto.answer;
+    if (updateOneOptionDto.type) {
+      option.type = updateOneOptionDto.type;
+    }
+    return this.optionsRepo.save(option);
   }
 }
