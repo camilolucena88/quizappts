@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Questions } from './entity/Questions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OptionsService } from '../options/options.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { Activity } from '../activities/entity/Activity';
+import { STATUS_CODES } from 'http';
 
 @Injectable()
 export class QuestionsService {
@@ -15,11 +16,28 @@ export class QuestionsService {
   ) {}
 
   async findAll(activity: Activity) {
-    return await this.questionsRepo.find({ where: { activity: activity } });
+    return await this.questionsRepo.find({
+      where: { activity: activity },
+      relations: ['options'],
+    });
   }
 
-  async findOne(id: { where: { id: number }; relations: string[] }) {
-    return await this.questionsRepo.findOne(id);
+  async findOne(id: number, activity: Activity) {
+    const question = await this.questionsRepo.findOne({
+      where: {
+        id: id,
+        activity: activity,
+      },
+      relations: ['options'],
+    });
+
+    if (question) {
+      return question;
+    }
+    throw new HttpException(
+      'Does not exist the question: ' + id,
+      HttpStatus.BAD_REQUEST,
+    );
   }
 
   async create(question: CreateQuestionDto): Promise<Questions> {

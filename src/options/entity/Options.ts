@@ -13,7 +13,9 @@ export class Options {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Questions, (question: Questions) => question.options)
+  @ManyToOne(() => Questions, (question: Questions) => question.options, {
+    onDelete: 'CASCADE',
+  })
   question: Questions;
 
   @Column()

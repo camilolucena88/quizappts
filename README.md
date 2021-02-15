@@ -28,5 +28,3 @@ docker-compose up
 * *http://localhost:3000/api/activities/questions/1*
 * *http://localhost:3000/api/activities/questions/options*
 * *http://localhost:3000/api/activities/questions/options/1*
-* *http://localhost:3000/api/clients*
-* *http://localhost:3000/api/clients/1*

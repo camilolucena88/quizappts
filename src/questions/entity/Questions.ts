@@ -7,7 +7,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Answers } from '../../answers/entity/Answers';
 import { Options } from '../../options/entity/Options';
 import { Activity } from '../../activities/entity/Activity';
 
@@ -22,11 +21,10 @@ export class Questions {
   @Column('text')
   question: string;
 
-  @ManyToOne(() => Activity, (activity) => activity.questions)
+  @ManyToOne(() => Activity, (activity) => activity.questions, {
+    onDelete: 'CASCADE',
+  })
   activity: Activity;
-
-  @ManyToOne(() => Answers, (correctAnswers) => correctAnswers.answer)
-  correctAnswers: Array<Answers>;
 
   @OneToMany(() => Options, (options: Options) => options.question, {
     onDelete: 'CASCADE',

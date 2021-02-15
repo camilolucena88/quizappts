@@ -46,9 +46,21 @@ export class ActivitiesService {
     this.activitiesRepo.merge(activity, body);
     return this.activitiesRepo.save(activity);
   }
-
   async remove(id: number) {
     await this.activitiesRepo.delete(id);
     return true;
+  }
+  async addOneQuestion(activity: Activity, body: any) {
+    activity.questions = body;
+    return await this.activitiesRepo.save(activity);
+  }
+
+  async removeQuestion(activity: Activity, id: number) {
+    return await this.activitiesRepo
+      .createQueryBuilder()
+      .delete()
+      .from(Activity)
+      .where('activity.question = :id', { id: id })
+      .execute();
   }
 }
