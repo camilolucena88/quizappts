@@ -26,7 +26,7 @@ export class Questions {
   activity: Activity;
 
   @ManyToOne(() => Answers, (correctAnswers) => correctAnswers.answer)
-  correctAnswers: Answers[];
+  correctAnswers: Array<Answers>;
 
   @OneToMany(() => Options, (options: Options) => options.question, {
     onDelete: 'CASCADE',

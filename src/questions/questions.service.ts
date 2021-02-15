@@ -3,8 +3,8 @@ import { Questions } from './entity/Questions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OptionsService } from '../options/options.service';
-import { AnswersService } from '../answers/answers.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
+import { Activity } from '../activities/entity/Activity';
 
 @Injectable()
 export class QuestionsService {
@@ -12,38 +12,35 @@ export class QuestionsService {
     @InjectRepository(Questions)
     private questionsRepo: Repository<Questions>,
     private optionsService: OptionsService,
-    private answersService: AnswersService,
   ) {}
 
-  findAll() {
-    return this.questionsRepo.find();
+  async findAll(activity: Activity) {
+    return await this.questionsRepo.find({ where: { activity: activity } });
   }
 
-  findOne(id: number) {
-    return this.questionsRepo.findOne(id);
+  async findOne(id: { where: { id: number }; relations: string[] }) {
+    return await this.questionsRepo.findOne(id);
   }
 
   async create(question: CreateQuestionDto): Promise<Questions> {
-    //Create Options
-    const options = await this.optionsService.create(question.options);
-    const correctAnswers = question.answers.map((index) => {
-      return options[index.answer];
-    });
-    console.log(correctAnswers);
-    //Create the correctAnswers
-    const answers = [];
-    for (const answer of correctAnswers) {
-      answers.push(await this.answersService.create(answer.answer));
-    }
+    const correctOptions = await this.optionsService.create(
+      question.correct_answers,
+    );
+    const otherOptions = await this.optionsService.create(
+      question.other_options,
+      this.optionsService.OTHER_OPTION,
+    );
     const newQuestion = new Questions();
     newQuestion.question = question.question;
-    newQuestion.options = options;
-    // newQuestion.correctAnswers = answers;
+    newQuestion.options = correctOptions.concat(otherOptions);
     return await this.questionsRepo.save(newQuestion);
   }
 
   async update(id: number, body: any) {
     const question = await this.questionsRepo.findOne(id);
+    question.options.forEach((option) => {
+      this.optionsService.update(option.id, body.options);
+    });
     this.questionsRepo.merge(question, body);
     return this.questionsRepo.save(question);
   }

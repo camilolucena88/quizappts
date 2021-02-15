@@ -1,4 +1,6 @@
-import { CreateAnswerDto } from '../../answers/dto/create-answer.dto';
+import { IsNotEmpty, IsString } from 'class-validator';
 export class CreateOptionDto {
-  answer: CreateAnswerDto;
+  @IsNotEmpty()
+  @IsString()
+  answer: string;
 }

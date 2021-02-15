@@ -16,9 +16,6 @@ export class Activity {
   @Column()
   name: string;
 
-  // @ManyToOne(() => Client, (client) => client.activities)
-  // client: Client;
-
   @OneToMany(() => Questions, (questions) => questions.activity)
   questions: Array<Questions>;
 

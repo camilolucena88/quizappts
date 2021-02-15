@@ -12,10 +12,14 @@ import {
 import { ActivitiesService } from './activities.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
+import { QuestionsService } from '../questions/questions.service';
 
 @Controller('api/activities')
 export class ActivitiesController {
-  constructor(private activitiesService: ActivitiesService) {}
+  constructor(
+    private activitiesService: ActivitiesService,
+    private questionsService: QuestionsService,
+  ) {}
 
   @Post()
   @UsePipes(ValidationPipe)
@@ -34,6 +38,7 @@ export class ActivitiesController {
   }
 
   @Put(':id')
+  @UsePipes(ValidationPipe)
   update(
     @Param('id') id: number,
     @Body() updateActivityDto: UpdateActivityDto,
@@ -44,5 +49,11 @@ export class ActivitiesController {
   @Delete(':id')
   delete(@Param('id') id: number) {
     return this.activitiesService.remove(+id);
+  }
+
+  @Get(':id/questions')
+  async findAllQuestions(@Param('id') id: number) {
+    const activity = await this.activitiesService.findOne(+id);
+    return await this.questionsService.findAll(activity);
   }
 }

@@ -9,8 +9,8 @@ export class CreateQuestionDto {
 
   @IsNotEmpty()
   @IsArray()
-  options: Array<CreateOptionDto>;
+  correct_answers: Array<CreateOptionDto>;
 
   @IsArray()
-  answers: Array<CorrectAnswersDto>;
+  other_options: Array<CreateOptionDto>;
 }

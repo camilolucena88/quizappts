@@ -18,7 +18,10 @@ export class ActivitiesService {
   }
 
   findOne(id: number) {
-    return this.activitiesRepo.findOne(id);
+    return this.activitiesRepo.findOne({
+      where: { id: id },
+      relations: ['questions', 'questions.options'],
+    });
   }
 
   async create(activity: CreateActivityDto) {
@@ -33,7 +36,13 @@ export class ActivitiesService {
   }
 
   async update(id: number, body: any) {
-    const activity = await this.activitiesRepo.findOne(id);
+    const activity = await this.activitiesRepo.findOne({
+      where: { id: id },
+      relations: ['questions', 'questions.options'],
+    });
+    activity.questions.forEach((question) => {
+      this.questionsService.update(question.id, body.questions);
+    });
     this.activitiesRepo.merge(activity, body);
     return this.activitiesRepo.save(activity);
   }

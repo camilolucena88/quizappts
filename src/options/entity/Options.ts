@@ -1,15 +1,12 @@
 import {
   Column,
   CreateDateColumn,
-  Entity, JoinColumn,
+  Entity,
   ManyToOne,
-  OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Questions } from '../../questions/entity/Questions';
-import { Answers } from '../../answers/entity/Answers';
 
 @Entity()
 export class Options {
@@ -19,9 +16,11 @@ export class Options {
   @ManyToOne(() => Questions, (question: Questions) => question.options)
   question: Questions;
 
-  @OneToOne(() => Answers)
-  @JoinColumn()
-  answer: Answers;
+  @Column()
+  type: number;
+
+  @Column()
+  answer: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

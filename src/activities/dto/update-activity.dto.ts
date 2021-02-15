@@ -1,4 +1,11 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateActivityDto } from './create-activity.dto';
+import { IsNotEmpty, IsString } from 'class-validator';
+import { UpdateQuestionDto } from '../../questions/dto/update-question.dto';
 
-export class UpdateActivityDto extends PartialType(CreateActivityDto) {}
+export class UpdateActivityDto {
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsNotEmpty()
+  questions: UpdateQuestionDto;
+}

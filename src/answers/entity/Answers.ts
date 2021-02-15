@@ -2,11 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne, OneToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Options } from '../../options/entity/Options';
+import { Questions } from '../../questions/entity/Questions';
 
 @Entity()
 export class Answers {
@@ -15,6 +15,9 @@ export class Answers {
 
   @Column({ type: 'smallint', default: 0 })
   type: number;
+
+  @OneToOne(() => Questions)
+  question: Questions;
 
   @Column('text')
   answer: string;

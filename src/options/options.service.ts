@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Options } from './entity/Options';
 import { AnswersService } from '../answers/answers.service';
-import {CreateOptionDto} from "./dto/create-option.dto";
+import { CreateOptionDto } from './dto/create-option.dto';
 
 @Injectable()
 export class OptionsService {
@@ -13,6 +13,9 @@ export class OptionsService {
     private answersService: AnswersService,
   ) {}
 
+  readonly CORRECT_OPTION = 0;
+  readonly OTHER_OPTION = 1;
+
   findAll() {
     return this.optionsRepo.find();
   }
@@ -21,11 +24,15 @@ export class OptionsService {
     return this.optionsRepo.findOne(id);
   }
 
-  async create(options: Array<CreateOptionDto>): Promise<Array<Options>> {
+  async create(
+    options: Array<CreateOptionDto>,
+    type = this.CORRECT_OPTION,
+  ): Promise<Array<Options>> {
     const optionsArray = [];
-    const newOptions = new Options();
     for (const option of options) {
-      newOptions.answer = await this.answersService.create(option.answer);
+      const newOptions = new Options();
+      newOptions.answer = option.answer;
+      newOptions.type = type;
       optionsArray.push(await this.optionsRepo.save(newOptions));
     }
     return optionsArray;
