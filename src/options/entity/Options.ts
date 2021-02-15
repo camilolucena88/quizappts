@@ -13,11 +13,14 @@ export class Options {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('text')
-  description: string;
-
-  @ManyToOne(() => Questions, (question) => question.options)
+  @ManyToOne(() => Questions, (question: Questions) => question.options)
   question: Questions;
+
+  @Column()
+  type: number;
+
+  @Column()
+  answer: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

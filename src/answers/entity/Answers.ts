@@ -2,17 +2,22 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Questions } from '../../questions/entity/Questions';
 
 @Entity()
 export class Answers {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('smallint')
+  @Column({ type: 'smallint', default: 0 })
   type: number;
+
+  @OneToOne(() => Questions)
+  question: Questions;
 
   @Column('text')
   answer: string;

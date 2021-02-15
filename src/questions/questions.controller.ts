@@ -7,17 +7,25 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { QuestionsService } from './questions.service';
 
-@Controller('questions')
+@Controller('api/questions')
 export class QuestionsController {
+  constructor(private questionsService: QuestionsService) {}
+
   @Get()
   findAll() {
     return [1, 2, 3];
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return id;
+  async findOne(@Param('id') id: number) {
+    return await this.questionsService.findOne({
+      where: {
+        id: id,
+      },
+      relations: ['options'],
+    });
   }
 
   @Post()

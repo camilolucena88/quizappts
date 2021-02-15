@@ -6,11 +6,7 @@
   "password": "1234",
   "database": "escuelauno",
   "entities": [
-    "Activity",
-    "Options",
-    "Answers",
-    "Client",
-    "Questions"
+    "src/**/entity/*.ts"
   ],
   "synchronize": false,
   "migrationsTableName": "migrations",

@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Answers } from '../../answers/entity/Answers';
 import { Options } from '../../options/entity/Options';
+import { Activity } from '../../activities/entity/Activity';
 
 @Entity()
 export class Questions {
@@ -21,11 +22,17 @@ export class Questions {
   @Column('text')
   question: string;
 
-  @ManyToOne(() => Answers, (correctAnswers) => correctAnswers.answer)
-  correctAnswers: Answers;
+  @ManyToOne(() => Activity, (activity) => activity.questions)
+  activity: Activity;
 
-  @OneToMany(() => Options, (options) => options.question)
-  options: Options;
+  @ManyToOne(() => Answers, (correctAnswers) => correctAnswers.answer)
+  correctAnswers: Array<Answers>;
+
+  @OneToMany(() => Options, (options: Options) => options.question, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  options: Array<Options>;
 
   @Column({ type: 'smallint', nullable: true })
   type: number;
